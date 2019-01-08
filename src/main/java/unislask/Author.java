@@ -1,4 +1,4 @@
-package main.java.unislask;
+package unislask;
 
 import java.util.Vector;
 

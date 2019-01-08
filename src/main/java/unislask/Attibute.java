@@ -1,4 +1,4 @@
-package main.java.unislask;
+package unislask;
 
 class Attribute {
 	String attrName;
