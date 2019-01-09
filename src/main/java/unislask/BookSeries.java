@@ -1,6 +1,4 @@
 package unislask;
 
-;
-
 class BookSeries {
 }
