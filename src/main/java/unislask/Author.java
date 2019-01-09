@@ -1,7 +1,7 @@
 package unislask;
 
-import java.util.Vector;
+import java.util.HashMap;;
 
 class Author {
-	Vector<Attribute> attributes;
+	HashMap<String, String> attributes;
 }
