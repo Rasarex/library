@@ -6,7 +6,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 class Data {
-
+    Data(){}
     Data(BufferedWriter writer_) {
         writer = writer_;
     }
