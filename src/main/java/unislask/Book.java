@@ -2,10 +2,11 @@ package unislask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Vector;
 
 class Book {
 	String ID;
-	Author author;
+	Vector<Author> authors;
 	String title;
 	String publisher;
 	String date;
@@ -13,8 +14,6 @@ class Book {
 
 	public void emplace(String attr, String attrname) throws FileNotFoundException {
 		switch (attrname) {
-		case "ID":
-			ID = attr;
 		case "TITLE":
 			title = attr;
 		case "PUBLISHER":
@@ -27,6 +26,6 @@ class Book {
 	}
 
 	public void addAuthor(Author author__) {
-		author = author__;
+		authors.add(author__);
 	}
 }

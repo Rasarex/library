@@ -9,12 +9,29 @@ import java.util.Scanner;
 import java.util.Vector;
 
 class Parser {
-	static final String[] OPTIONS = { "authorpath", "bookspath", "author" };
-	final static private String[] BOOK_ATTR = { "ID", "AUTHOR", "TITLE", "PUBLISHER", "DATE", "BOOKLNK" };
+	static final String[] OPTIONS = { "authorpathslink", "bookspathslink", "author" };
+	final static private String[] BOOK_ATTR = { "AUTHOR", "TITLE", "PUBLISHER", "DATE", "BOOKLNK" };
+
+	Data parseRoot(File root) {
+		Data rtn = new Data();
+		String[] subDirectory = root.list(new FilenameFilter() {
+
+			@Override
+			public boolean accept(File dir, String name) {
+				return new File(dir, name).isDirectory();
+			}
+		});
+		for (String dir : subDirectory) {
+			rtn.add(parse(dir));
+		}
+		return rtn;
+	}
 
 	Data parse(String path) {
 		File root = new File(path);
-
+		Data rtn = new Data();
+		Vector<Book> vbooks = new Vector<>();
+		Vector<BookSeries> vseries = new Vector<>();
 		String[] subFiles = root.list(new FilenameFilter() {
 
 			@Override
@@ -40,24 +57,15 @@ class Parser {
 					if (!exist)
 						return new Data();
 				}
-
-				String books = settings.get("bookspath");
-				if (!books.matches("({[a-zA-Z][a-zA-Z0-9]*}|{[a-zA-Z][a-zA-Z0-9]*,)+"))
+				Vector<String> bookspaths = null;
+				String books = settings.get("bookspathslink");
+				try {
+					bookspaths = factory.toPaths(books);
+				} catch (FileNotFoundException e) {
+					System.out.println("Path to file with bookspath is incorrect" + books);
 					return new Data();
-
-				Vector<String> bookspaths = new Vector<>();
-				for (int i = 1; i < books.length() - 1; ++i) {
-					StringBuilder bookpath = new StringBuilder(16);
-
-					if (books.charAt(i) == ',') {
-						String book = bookpath.toString();
-						bookspaths.add(book);
-						bookspaths.clear();
-					} else {
-						bookpath.append(books.charAt(i));
-					}
 				}
-				Vector<Book> vbooks = new Vector<>();
+
 				for (String bookpath : bookspaths) {
 					try {
 						vbooks.add(parseBookPath(bookpath));
@@ -69,18 +77,17 @@ class Parser {
 				if (bookspaths.size() > 1) {
 					BookSeries series = new BookSeries();
 					series.books = vbooks;
+					vseries.add(series);
 				}
 
 			}
 
-			String[] subDirectory = root.list(new FilenameFilter() {
-
-				@Override
-				public boolean accept(File dir, String name) {
-					return new File(dir, name).isDirectory();
-				}
-			});
 		}
+
+		rtn.books = vbooks;
+		rtn.authors = factory.getVectorized();
+		rtn.series = vseries;
+		return rtn;
 	}
 
 	HashMap<String, String> parseSetting(File settingsf) throws FileNotFoundException {
@@ -93,32 +100,6 @@ class Parser {
 		}
 		scanner.close();
 		return settings;
-	}
-
-	Author parseAuthor(String path) throws FileNotFoundException {
-		Scanner scanner = new Scanner(new File(path));
-		Book book = new Book();
-		while (scanner.hasNext()) {
-			String line = scanner.nextLine();
-			String[] splited = line.split("=");
-			if (splited.length != 2) {
-				scanner.close();
-				throw new FileNotFoundException();
-			}
-			boolean correct = false;
-			for (String attr : BOOK_ATTR) {
-				if (splited[0].compareTo(attr) == 0) {
-					correct = true;
-					if (splited[1].matches("[A-F0-9]{8}"))
-						book.emplace(splited[1], attr);
-					break;
-				}
-			}
-			if (!correct) {
-				scanner.close();
-				throw new FileNotFoundException();
-			}
-
 	}
 
 	Book parseBookPath(String path) throws FileNotFoundException {
@@ -136,9 +117,17 @@ class Parser {
 				if (splited[0].compareTo(attr) == 0) {
 					correct = true;
 					if (splited[0].compareTo("AUTHOR") == 0) {
-						book.addAuthor(parseAuthor(splited[0]));
-					} else if (splited[1].matches("[A-F0-9]{8}"))
+						Vector<String> authors = factory.toPaths(splited[1]);
+
+						for (String author : authors) {
+							book.addAuthor(factory.parseAuthor(author));
+						}
+
+					} else if (splited[1].matches("[A-F0-9]{8}") && splited[1].equals("ID")) {
 						book.emplace(splited[1], attr);
+					} else {
+						book.emplace(splited[1], attr);
+					}
 					break;
 				}
 			}
@@ -153,4 +142,5 @@ class Parser {
 
 	}
 
+	AuthorFactory factory;
 }
