@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.Vector;
 
 class Book {
-	String ID;
 	Vector<Author> authors;
 	String title;
 	String publisher;
@@ -27,5 +26,24 @@ class Book {
 
 	public void addAuthor(Author author__) {
 		authors.add(author__);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder(256);
+		builder.append("\nAuthors:");
+		for (Author author : authors) {
+
+			builder.append(author.toString());
+		}
+		builder.append("\nTitle:");
+		builder.append(title);
+		builder.append("\nPublisher:");
+		builder.append(publisher);
+		builder.append("\nRelease date:");
+		builder.append(date);
+		builder.append("\nPath:");
+		builder.append(booklnk.getAbsolutePath());
+		return builder.toString();
 	}
 }

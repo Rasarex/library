@@ -26,4 +26,22 @@ class Author {
 		otherNames = otherNames__;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder(256);
+		builder.append("\nID:");
+		builder.append(ID);
+		builder.append("\nName:");
+		builder.append(name);
+		builder.append("\nSurname:");
+		builder.append(surname);
+		for (String other : otherNames) {
+
+			builder.append(other);
+		}
+
+		builder.append("\nBorn date:");
+		builder.append(bornDate);
+		return builder.toString();
+	}
 }

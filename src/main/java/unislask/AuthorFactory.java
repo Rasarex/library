@@ -25,7 +25,9 @@ class AuthorFactory {
 			}
 			attr.put(splited[1], splited[0]);
 		}
+
 		scanner.close();
+
 		for (Map.Entry<String, String> entry : attr.entrySet()) {
 			boolean correct = false;
 			for (String val : AUTHOR_ATTR) {
@@ -38,9 +40,18 @@ class AuthorFactory {
 				throw new FileNotFoundException();
 			}
 		}
+
 		if (authors.get(attr.get("ID")) == null) {
 			for (Map.Entry<String, String> entry : attr.entrySet()) {
-				author.emplace(entry.getValue(), entry.getKey());
+				if (entry.getValue().equals("OTHER")) {
+					Vector<String> other = new Vector<>();
+					String[] othernames = entry.getKey().split(",");
+					for (String othername : othernames) {
+						other.add(othername);
+					}
+					author.otherNames = other;
+				} else
+					author.emplace(entry.getValue(), entry.getKey());
 			}
 			return author;
 		} else {
@@ -69,6 +80,7 @@ class AuthorFactory {
 				}
 			return author;
 			// TODO REVISIT DATE
+			// TODO REVISIT ID CORRECTIOn
 		}
 	}
 

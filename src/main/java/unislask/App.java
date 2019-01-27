@@ -1,17 +1,25 @@
 package unislask;
 
-/**
- * Hello world!
- */
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 public final class App {
     private App() {
     }
 
-    /**
-     * Says hello to the world.
-     * @param args The arguments of the program.
-     */
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        try {
+            Data GLOBALSTATE = new Data();
+            Parser parser = new Parser();
+            String root = new String("E:\\Programming_Connected\\library\\examples\\");
+            System.out.println(root);
+            GLOBALSTATE = parser.parseRoot(root);
+            for (Book book : GLOBALSTATE.books) {
+                System.out.println(book);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
