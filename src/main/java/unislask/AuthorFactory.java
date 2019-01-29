@@ -6,54 +6,53 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.io.File;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.mifmif.common.regex.Generex;
 
-class AuthorFactory {
-	final static private String[] AUTHOR_ATTR = { "ID", "NAME", "SURNAME", "OTHER", "BORNDATE" };
+/**
+ * <p>AuthorFactory class.</p>
+ *
+ * @author rasarex
+ * @version $Id: $Id
+ */
+public class AuthorFactory {
+	// final static private String[] AUTHOR_ATTR = { "ID", "NAME", "SURNAME",
+	// "OTHER", "BORNDATE" };
 
-	Author parseAuthor(String path) throws FileNotFoundException {
-		Scanner scanner = new Scanner(new File(path));
+	AuthorFactory() {
+		authors = new ConcurrentHashMap<>();
+	}
+
+	void parseAuthor(Vector<String> file, String path) {
+		// TODO BETTER ERROR LOGGING
 		Author author = new Author();
 		HashMap<String, String> attr = new HashMap<>();
-		while (scanner.hasNext()) {
-			String line = scanner.nextLine();
-			String[] splited = line.split("=");
+		for (String line : file) {
 
-			if (splited.length != 2) {
-				scanner.close();
-				throw new FileNotFoundException();
+			if (line.charAt(0) != '#') {
+				String[] splited = line.split("=");
+				if (splited.length != 2) {
+					continue;
+				}
+				attr.put(splited[0], splited[1]);
 			}
-			attr.put(splited[1], splited[0]);
 		}
-
-		scanner.close();
 
 		for (Map.Entry<String, String> entry : attr.entrySet()) {
-			boolean correct = false;
-			for (String val : AUTHOR_ATTR) {
-				if (entry.getValue().equals(val)) {
-					correct = true;
+			if (entry.getKey().equals("OTHER")) {
+				Vector<String> other = new Vector<>();
+				String[] othernames = entry.getValue().split(",");
+				for (String othername : othernames) {
+					other.add(othername);
 				}
-			}
-			if (!correct) {
-				scanner.close();
-				throw new FileNotFoundException();
-			}
+				author.otherNames = other;
+			} else
+				author.emplace(entry.getValue(), entry.getKey());
 		}
 
-		if (authors.get(attr.get("ID")) == null) {
-			for (Map.Entry<String, String> entry : attr.entrySet()) {
-				if (entry.getValue().equals("OTHER")) {
-					Vector<String> other = new Vector<>();
-					String[] othernames = entry.getKey().split(",");
-					for (String othername : othernames) {
-						other.add(othername);
-					}
-					author.otherNames = other;
-				} else
-					author.emplace(entry.getValue(), entry.getKey());
-			}
-			return author;
+		if (authors.get(author.ID) == null) {
+			authors.put(path, author);
 		} else {
 			Author another = authors.get(attr.get("ID"));
 			boolean sameID = false;
@@ -72,13 +71,13 @@ class AuthorFactory {
 			if (author.ID.equals(another.ID))
 				sameID = true;
 			if (sameID)
-				if ((sameName || sameSurname || sameBornDate || sameOtherNames)) {
+				if (!(sameName || sameSurname || sameBornDate || sameOtherNames)) {
 					author.ID = genID();
-					return author;
+					authors.put(path, author);
 				} else {
-					return another;
+					authors.put(path, another);
 				}
-			return author;
+			authors.put(path, author);
 			// TODO REVISIT DATE
 			// TODO REVISIT ID CORRECTIOn
 		}
@@ -114,5 +113,5 @@ class AuthorFactory {
 		return rtnval;
 	}
 
-	HashMap<String, Author> authors;
+	ConcurrentHashMap<String, Author> authors;
 }

@@ -1,0 +1,6 @@
+#bookdef
+AUTHORS=/home/rasarex/java/SemestrI/Zaliczenie/library/examples/book1/johnsnow
+TITLE=example
+PUBLISHER= sample
+DATE=19-09-2001
+BOOKLNK=example.txt

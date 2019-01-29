@@ -2,14 +2,38 @@ package unislask;
 
 import java.util.Vector;
 
-class Author {
+/**
+ * <p>Author class.</p>
+ *
+ * @author rasarex
+ * @version $Id: $Id
+ */
+public class Author {
 	String ID;
 	String name;
 	String surname;
 	Vector<String> otherNames;
 	String bornDate;
 
+	Author() {
+		ID = new String();
+		name = new String();
+		surname = new String();
+		otherNames = new Vector<>();
+		bornDate = new String();
+	}
+
+	/**
+	 * <p>
+	 * emplace.
+	 * </p>
+	 *
+	 * @param attr     a {@link java.lang.String} object.
+	 * @param attrname a {@link java.lang.String} object.
+	 * @param attrname a {@link java.lang.String} object.
+	 */
 	public void emplace(String attr, String attrname) {
+
 		switch (attrname) {
 		case "ID":
 			ID = attr;
@@ -22,10 +46,18 @@ class Author {
 		}
 	}
 
+	/**
+	 * <p>
+	 * other.
+	 * </p>
+	 *
+	 * @param otherNames__ a {@link java.util.Vector} object.
+	 */
 	public void other(Vector<String> otherNames__) {
 		otherNames = otherNames__;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder(256);
