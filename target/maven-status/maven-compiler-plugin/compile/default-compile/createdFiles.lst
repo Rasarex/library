@@ -1,1 +1,14 @@
+unislask/Book.class
+unislask/FileWalker.class
+unislask/FrontEnd.class
+unislask/UserInterface.class
+unislask/CommandError.class
+unislask/Seeker.class
+unislask/CommendInterpreter.class
+unislask/App.class
+unislask/Author.class
+unislask/Parser.class
+unislask/AuthorFactory.class
 unislask/FrontEnd$1.class
+unislask/BookFactory.class
+unislask/Data.class

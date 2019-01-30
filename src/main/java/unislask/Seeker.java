@@ -4,14 +4,25 @@ import java.util.Vector;
 
 /**
  * <p>
- * Seeker class.
+ * Seeker is responsible for searching in {@link unislask.Data}
  * </p>
  *
  * @author rasarex
  * @version $Id: $Id
  */
 public class Seeker {
-	public Vector<Book> seekByBookAttr(Data currentData, String attrName, String attr) {
+	/**
+	 * <p>
+	 * seekByBookAttr.
+	 * </p>
+	 *
+	 * @param currentData of type{@link unislask.Data}.
+	 * @param attrName    name of attribute by which function will sort.
+	 * @param attrName    name of attribute by which function will sort.
+	 * @param attr        value of attribute
+	 * @return sorted global data
+	 */
+	public Vector<Book> seekByBookAttr(Data currentData, String attr, String attrName) {
 		Vector<Book> rtn = new Vector<>();
 
 		switch (attr.toUpperCase()) {
@@ -46,7 +57,17 @@ public class Seeker {
 
 	}
 
-	public Vector<Author> seekByAuthorAttr(Data currentData, String attrName, String attr) {
+	/**
+	 * <p>
+	 * seekByAuthorAttr.
+	 * </p>
+	 *
+	 * @param currentData global state.
+	 * @param attrName    name of attribute by which function will sort.
+	 * @param attr        value of attribute
+	 * @return sorted global data
+	 */
+	public Vector<Author> seekByAuthorAttr(Data currentData, String attr, String attrName) {
 		Vector<Author> rtn = new Vector<>();
 		switch (attr.toUpperCase()) {
 		case "NAME":

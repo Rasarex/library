@@ -2,43 +2,67 @@ package unislask;
 
 import java.util.HashMap;
 
-interface UserInterface {
+/**
+ * <p>
+ * Interface for {@link unislask.CommendInterpreter} and user
+ * </p>
+ *
+ * @author rasarex
+ * @version $Id: $Id
+ */
+public interface UserInterface {
 	/**
-	 * <p>error.</p>
+	 * <p>
+	 * error.
+	 * </p>
 	 *
-	 * @param line a {@link java.lang.String} object.
-	 * @param error a {@link unislask.CommandError} object.
+	 * @param line  on which error occurend.
+	 * @param error type of error.
 	 */
-	void error(String line, CommandError error);
+	public void error(String line, CommandError error);
 
 	/**
-	 * <p>help.</p>
+	 * <p>
+	 * help.
+	 * </p>
 	 *
-	 * @param flag a int.
+	 * @param flag different types of help
 	 */
-	void help(int flag);
+	public void help(int flag);
 
 	/**
-	 * <p>add.</p>
-	 */
-	void add();
-
-	/**
-	 * <p>listBooks.</p>
+	 * <p>
+	 * add.
+	 * </p>
 	 *
-	 * @param bookListing a {@link java.util.HashMap} object.
+	 * @param state a global state of type {@link unislask.Data}.
+	 * @param flag  flipping between book/author
 	 */
-	void listBooks(HashMap<Integer, Book> bookListing);
+	public void add(Data state, int flag);
 
 	/**
-	 * <p>listAuthors.</p>
+	 * <p>
+	 * listBooks.
+	 * </p>
 	 *
-	 * @param authorListing a {@link java.util.HashMap} object.
+	 * @param bookListing listing of books created by {@link unislask.CommendInterpreter}.
 	 */
-	void listAuthors(HashMap<Integer, Author> authorListing);
+	public void listBooks(HashMap<Integer, Book> bookListing);
 
 	/**
-	 * <p>remove.</p>
+	 * <p>
+	 * listAuthors.
+	 * </p>
+	 *
+	 * @param authorListing listing of authors created by
+	 *                      {@link unislask.CommendInterpreter}.
+	 */
+	public void listAuthors(HashMap<Integer, Author> authorListing);
+
+	/**
+	 * <p>
+	 * remove.
+	 * </p>
 	 */
 	void remove();
 }

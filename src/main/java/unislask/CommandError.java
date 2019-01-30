@@ -1,5 +1,13 @@
 package unislask;
 
-enum CommandError {
+/**
+ * <p>
+ * CommandError enum.
+ * </p>
+ *
+ * @author rasarex
+ * @version $Id: $Id
+ */
+public enum CommandError {
 	InvalidNumberOfArguments, NotSuchCommand, WrongArgument
 }

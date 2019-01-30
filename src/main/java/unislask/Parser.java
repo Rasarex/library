@@ -5,14 +5,26 @@ import java.nio.file.*;
 import java.util.Map;
 
 /**
- * <p>Parser class.</p>
- *
+ * <p>
+ * Parser
+ * </p>
+ * Parser is responsible for parsing files into {@link Data}
+ * 
  * @author rasarex
  * @version $Id: $Id
  */
 public class Parser {
 
-	Data parseRoot(String rootPath) throws IOException {
+	/**
+	 * <p>
+	 * parseRoot.
+	 * </p>
+	 *
+	 * @param rootPath path to the root folder.
+	 * @return data parsed under rootPath
+	 * @throws java.io.IOException if any.
+	 */
+	public Data parseRoot(String rootPath) throws IOException {
 		Path path = Paths.get(rootPath);
 		afactory = new AuthorFactory();
 		bfactory = new BookFactory();

@@ -3,7 +3,9 @@ package unislask;
 import java.util.Vector;
 
 /**
- * <p>Author class.</p>
+ * <p>
+ * Author is basic storage structure containging inforamtion about given author
+ * </p>
  *
  * @author rasarex
  * @version $Id: $Id
@@ -14,6 +16,7 @@ public class Author {
 	String surname;
 	Vector<String> otherNames;
 	String bornDate;
+	String path;
 
 	Author() {
 		ID = new String();
@@ -21,16 +24,17 @@ public class Author {
 		surname = new String();
 		otherNames = new Vector<>();
 		bornDate = new String();
+		path = new String();
 	}
 
 	/**
 	 * <p>
 	 * emplace.
 	 * </p>
+	 * Emplaces value on inner state.
 	 *
-	 * @param attr     a {@link java.lang.String} object.
-	 * @param attrname a {@link java.lang.String} object.
-	 * @param attrname a {@link java.lang.String} object.
+	 * @param attr     state value.
+	 * @param attrname state name.
 	 */
 	public void emplace(String attr, String attrname) {
 
@@ -51,7 +55,7 @@ public class Author {
 	 * other.
 	 * </p>
 	 *
-	 * @param otherNames__ a {@link java.util.Vector} object.
+	 * @param otherNames__ emplaces {@link java.util.Vector} of other names
 	 */
 	public void other(Vector<String> otherNames__) {
 		otherNames = otherNames__;

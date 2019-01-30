@@ -2,16 +2,16 @@ package unislask;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.io.File;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.mifmif.common.regex.Generex;
 
 /**
- * <p>AuthorFactory class.</p>
+ * <p>
+ * AuthorFactory
+ * </p>
+ * Factory producing authors
  *
  * @author rasarex
  * @version $Id: $Id
@@ -24,7 +24,15 @@ public class AuthorFactory {
 		authors = new ConcurrentHashMap<>();
 	}
 
-	void parseAuthor(Vector<String> file, String path) {
+	/**
+	 * <p>
+	 * parseAuthor.
+	 * </p>
+	 *
+	 * @param file vectorized file {@link java.util.Vector}.
+	 * @param path path {@link java.lang.String}.
+	 */
+	public void parseAuthor(Vector<String> file, String path) {
 		// TODO BETTER ERROR LOGGING
 		Author author = new Author();
 		HashMap<String, String> attr = new HashMap<>();
@@ -38,7 +46,7 @@ public class AuthorFactory {
 				attr.put(splited[0], splited[1]);
 			}
 		}
-
+		author.path = path;
 		for (Map.Entry<String, String> entry : attr.entrySet()) {
 			if (entry.getKey().equals("OTHER")) {
 				Vector<String> other = new Vector<>();
@@ -83,18 +91,14 @@ public class AuthorFactory {
 		}
 	}
 
-	Vector<String> toPaths(String path) throws FileNotFoundException {
-		Vector<String> rtnval = new Vector<>();
-		File fpath = new File(path);
-		Scanner scanner = new Scanner(fpath);
-		while (scanner.hasNext()) {
-			rtnval.add(scanner.nextLine());
-		}
-		scanner.close();
-		return rtnval;
-	}
-
-	String genID() {
+	/**
+	 * <p>
+	 * genID.
+	 * </p>
+	 *
+	 * @return new unique ID
+	 */
+	public String genID() {
 		String generated = null;
 		do {
 			Generex generex = new Generex("[A-F0-9]+");
@@ -102,15 +106,6 @@ public class AuthorFactory {
 			assert generated.matches("[A-F0-9]+");
 		} while (authors.get(generated) != null);
 		return generated;
-	}
-
-	Vector<Author> getVectorized() {
-		Vector<Author> rtnval = new Vector<>();
-		for (Map.Entry<String, Author> entry : authors.entrySet()) {
-			rtnval.add(entry.getValue());
-
-		}
-		return rtnval;
 	}
 
 	ConcurrentHashMap<String, Author> authors;

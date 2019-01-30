@@ -3,7 +3,9 @@ package unislask;
 import java.util.Vector;
 
 /**
- * <p>Book class.</p>
+ * <p>
+ * Book class.
+ * </p>
  *
  * @author rasarex
  * @version $Id: $Id
@@ -28,9 +30,8 @@ public class Book {
 	 * emplace.
 	 * </p>
 	 *
-	 * @param attr     a {@link java.lang.String} object.
-	 * @param attrname a {@link java.lang.String} object.
-	 * @param attrname a {@link java.lang.String} object.
+	 * @param attr     state value.
+	 * @param attrname state name.
 	 */
 	public void emplace(String attr, String attrname) {
 		switch (attrname) {
